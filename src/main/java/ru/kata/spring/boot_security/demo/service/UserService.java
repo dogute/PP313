@@ -34,13 +34,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = userDao.findByUsername(username);
-
-        if (username == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
         return user;
     }
 
@@ -56,9 +51,6 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public boolean saveUser(User user) {
-        if (userDao.findByUsername(user.getFirstName()) != null) {
-            throw new IllegalArgumentException(String.format("User with username %s already exists in database", user.getFirstName()));
-        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.save(user);
         return true;
