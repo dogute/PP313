@@ -19,8 +19,6 @@ import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
-    @PersistenceContext
-    private EntityManager entityManager;
 
     private final UserDao userDao;
     private final RoleDao roleDao;
@@ -35,7 +33,6 @@ public class UserService implements UserDetailsService {
 
     }
 
-    // в коде явно не вызывается
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);

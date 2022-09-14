@@ -13,8 +13,12 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public AdminController (UserService userService){
+        this.userService = userService;
+    }
 
     @GetMapping("/")
     public String userList(Model model) {
@@ -44,7 +48,7 @@ public class AdminController {
         return "adminController/edit";
     }
 
-    @PutMapping("/{id}")  // edit user
+    @PutMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
         userService.updateUser(user);
         return "redirect:/admin/";

@@ -22,12 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // настройка секьюрности по определенным URL
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
