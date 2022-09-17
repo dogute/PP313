@@ -39,8 +39,8 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String editUser(@PathVariable("id") Long id, Model model) {
         User userToEdit = userService.getUserById(id);
-        String roleUser = (userToEdit.getStringRoles().contains("ROLE_USER") ? "on" : null);
-        String roleAdmin = (userToEdit.getStringRoles().contains("ROLE_ADMIN") ? "on" : null);
+        String roleUser = (userToEdit.getStringRoles().contains("USER") ? "on" : null);
+        String roleAdmin = (userToEdit.getStringRoles().contains("ADMIN") ? "on" : null);
 
         model.addAttribute("userToEdit", userService.getUserById(id));
         model.addAttribute("roleUser", roleUser);
