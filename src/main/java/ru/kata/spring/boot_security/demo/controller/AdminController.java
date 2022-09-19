@@ -1,7 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +20,7 @@ public class AdminController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public String userList(Model model) {
         model.addAttribute("usersList", userService.getAllUsers());
@@ -27,15 +28,16 @@ public class AdminController {
         model.addAttribute("newUser", new User());
         model.addAttribute("authorisedUser", (User) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal());
-        return "workPage";
+        return "adminPage";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public String addUser(@ModelAttribute("newUser") User user) {
         userService.saveUser(user);
         return "redirect:/admin/";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}/edit")
     public String editUser(@PathVariable("id") Long id, Model model) {
         User userToEdit = userService.getUserById(id);
@@ -48,12 +50,14 @@ public class AdminController {
         return "adminController/edit";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
         userService.updateUser(user);
         return "redirect:/admin/";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
